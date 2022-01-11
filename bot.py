@@ -1,4 +1,6 @@
 from time import time
+from dotenv import load_dotenv
+import os
 
 import discord
 from discord.ext import tasks
@@ -7,7 +9,9 @@ from replit import db
 from status import get_status, statuses
 from utils import StatusView, create_embed
 
-message_id = db.get("message")
+load_dotenv()
+
+message_id = os.getenv("MESSAGE")
 channel_id = 876932773208797205
 guild_id = 811678377639280670
 
