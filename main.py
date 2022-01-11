@@ -1,5 +1,6 @@
 from threading import Thread
 from dotenv import load_dotenv
+import os
 
 from bot import client, update_status
 from app import run_webserver
