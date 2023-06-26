@@ -4,7 +4,6 @@ import os
 
 import discord
 from discord.ext import tasks
-from replit import db
 
 from status import get_status, statuses
 from utils import StatusView, create_embed
@@ -58,7 +57,9 @@ async def update_status():
     view = StatusView()
     if not message_id:
         message = await channel.send(bot_statuses[str(bot.status)] + " Bot Status", embed=embed, view=view)
-        db["message"] = message.id
+        message_id = message.id
+        with open(".env", "a") as env_file:
+            env_file.write(f"MESSAGE={message_id}\n")
         return
     msg = await channel.fetch_message(message_id)
     await msg.edit(bot_statuses[str(bot.status)] + " Bot Status", embed=embed, view=view)
