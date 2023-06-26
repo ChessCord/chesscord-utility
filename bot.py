@@ -1,6 +1,7 @@
 from time import time
 from dotenv import load_dotenv
 import os
+import requests
 
 import discord
 from discord.ext import tasks
@@ -25,12 +26,14 @@ bot_statuses = {
 
 client = discord.Bot(command_prefix="c-u!", intents=discord.Intents().all())
 
+
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="this server!"))
     print("Bot is ready")
 
-@tasks.loop(minutes=2.0)
+
+@tasks.loop(minutes=2)
 async def update_status():
     comps, incidents = get_status()
     global message_id
@@ -64,6 +67,18 @@ async def update_status():
     msg = await channel.fetch_message(message_id)
     await msg.edit(bot_statuses[str(bot.status)] + " Bot Status", embed=embed, view=view)
 
+
 @update_status.before_loop
 async def before_some_task():
+    await client.wait_until_ready()
+
+
+@tasks.loop(minutes=5)
+async def heartbeat():
+    print("Sending heartbeat")
+    requests.post(f"https://uptime.betterstack.com/api/v1/heartbeat/{os.getenv('HEARTBEAT')}")
+
+
+@heartbeat.before_loop
+async def heartbeat_is_ready():
     await client.wait_until_ready()

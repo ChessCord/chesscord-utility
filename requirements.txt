@@ -3,3 +3,4 @@ replit
 flask
 python-dotenv
 statuspageio
+requests
