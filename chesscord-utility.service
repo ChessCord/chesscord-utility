@@ -1,0 +1,14 @@
+[Unit]
+Description=ChessCord Utility
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/krishnan/ChessCord/chesscord-utility
+ExecStartPre=/bin/sh -c 'until host discord.com; do sleep 1; done'
+ExecStart=/home/krishnan/ChessCord/chesscord-utility/venv/bin/python /home/krishnan/ChessCord/chesscord-utility/main.py
+User=krishnan
+Group=krishnan
+
+[Install]
+WantedBy=multi-user.target
