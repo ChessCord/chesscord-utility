@@ -7,6 +7,7 @@ Type=simple
 WorkingDirectory=/home/krishnan/ChessCord/chesscord-utility
 ExecStartPre=/bin/sh -c 'until host discord.com; do sleep 1; done'
 ExecStart=/home/krishnan/ChessCord/chesscord-utility/venv/bin/python -u /home/krishnan/ChessCord/chesscord-utility/main.py
+TimeoutStopSec=5
 User=krishnan
 Group=krishnan
 
